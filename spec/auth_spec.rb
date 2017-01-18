@@ -14,8 +14,10 @@ RSpec.describe MVPaaS::Auth do
     end
 
     context 'with an expired token' do
+      let(:token) { generate_jwt(pem_key, Time.now - 1000) }
+
       it 'should raise an error' do
-        pending
+        expect { MVPaaS::Auth.decode(token, secret) }.to raise_error(JWT::ExpiredSignature)
       end
     end
 

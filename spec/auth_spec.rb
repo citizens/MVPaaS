@@ -2,12 +2,12 @@ require "spec_helper"
 
 RSpec.describe MVPaaS::Auth do
   let(:pem_key) { generate_pem }
+  let(:other_pem_key) { generate_pem }
   let(:secret)  { pem_key }
+  let(:token) { generate_jwt(pem_key) }
 
   describe ".decode" do
     context 'with a valid token' do
-      let(:token) { generate_jwt(pem_key) }
-
       it 'should return the token data' do
         expect(MVPaaS::Auth.decode(token, secret)).to eq ({ id: 123, email: 'mail@example.com' })
       end
@@ -15,7 +15,6 @@ RSpec.describe MVPaaS::Auth do
 
     context 'with an expired token' do
       let(:token) { generate_jwt(pem_key, Time.now - 1000) }
-
       it 'should raise an error' do
         expect { MVPaaS::Auth.decode(token, secret) }.to raise_error(JWT::ExpiredSignature)
       end
@@ -23,7 +22,7 @@ RSpec.describe MVPaaS::Auth do
 
     context 'with an invalid signature' do
       it 'should raise an error' do
-        pending
+        expect { MVPaaS::Auth.decode(token, other_pem_key) }.to raise_error(JWT::VerificationError)
       end
     end
   end

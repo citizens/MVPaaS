@@ -1,13 +1,15 @@
 require "spec_helper"
 
 RSpec.describe MVPaaS::Auth do
-  let(:token)   { '' }
-  let(:secret)  { '' }
+  let(:pem_key) { generate_pem }
+  let(:secret)  { pem_key }
 
   describe ".decode" do
     context 'with a valid token' do
+      let(:token) { generate_jwt(pem_key) }
+
       it 'should return the token data' do
-        pending
+        expect(MVPaaS::Auth.decode(token, secret)).to eq ({ id: 123, email: 'mail@example.com' })
       end
     end
 

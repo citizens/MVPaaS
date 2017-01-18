@@ -5,7 +5,7 @@ require 'mvpaas/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "mvpaas"
-  spec.version       = Mvpaas::VERSION
+  spec.version       = MVPaaS::VERSION
   spec.authors       = ["Dylan Montgomery"]
   spec.email         = ["mail@citizensinspace.com"]
 

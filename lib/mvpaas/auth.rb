@@ -8,7 +8,7 @@ module MVPaaS
     module_function
 
     def decode(token, secret = nil)
-      decoded_secret = Base64.urlsafe_decode64(secret || ENV['MVPAAS_SECRET'])
+      decoded_secret = Base64.urlsafe_decode64(secret || ENV['MVPAAS_SECRET']).gsub("\\n","\n")
       rsa_key = OpenSSL::PKey::RSA.new(decoded_secret,'').public_key
       decoded_jwt = JWT.decode(token, rsa_key, true, algorithm: 'RS256')[0]
       {

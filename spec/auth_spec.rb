@@ -2,8 +2,8 @@ require "spec_helper"
 
 RSpec.describe MVPaaS::Auth do
   let(:pem_key) { generate_pem }
-  let(:other_pem_key) { generate_pem }
-  let(:secret)  { pem_key }
+  let(:other_pem_key) { Base64.urlsafe_encode64(generate_pem.to_s) }
+  let(:secret)  { Base64.urlsafe_encode64(pem_key.to_s) }
   let(:token) { generate_jwt(pem_key) }
 
   describe ".decode" do

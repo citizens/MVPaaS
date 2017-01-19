@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "mvpaas"
+require 'base64'
 
 # Generate a PEM key for testing
 def generate_pem
